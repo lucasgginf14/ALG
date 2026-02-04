@@ -1,0 +1,64 @@
+Algoritmos
+Práctica 1
+Grupo 2.1
+
+Intregrantes del equipo:
+Lucas García García (lucas.garcia.garcia@udc.es)
+Javier Manotas Ruiz (j.manotas@udc.es)
+Hugo Pérez Gómez (h.pgomez@udc.es)
+
+Especificaciones de la máquina con la que se han realizado las mediciones:
+Modelo del portátil: Msi Stealth GS66-12UGS
+Procesador: 12th Gen Intel® Core™ i7-12700H x 20
+Memoria: 32.0 GIB
+Disco duro 1.0 TB
+Sistema Operativo: Ubuntu 22.04.3 LTS (64 bits)
+Además hemos activado en configuración de energía en el portátil el modo alto rendimiento para mejorar la precisión de las primeras mediciones.
+
+Introdución:
+
+El objetivo es analizar el rendimiento y eficiencia de dos algoritmos que resuelven un mismo problema (obtener la suma de la subsecuencia máxima).
+Para ello hemos tomando mediciones del tiempo de ejecución (en microsegundos) para varios casos.
+En cada uno de estos la longitud de entrada del vector aumenta siguiendo una progresión geométrica de razón 2.
+Además comprobaremos la O grande de cada uno de estos algoritmos de forma empírica.
+
+Resultados (tras varias ejecuciones):
+
+SumaSubMax 1                         Cota subestimada           Cota exacta    Cota sobreestimada
+
+     n                  t(n)             t(n) / n^1.8            t(n) / n^2          t(n) / n^2.2
+
+   500               159.546 *              0.0022118             0.0006382             0.0001841
+  1000               641.000                0.0025519             0.0006410             0.0001610
+  2000              2615.000                0.0029896             0.0006538             0.0001430
+  4000             10379.000                0.0034076             0.0006487             0.0001235
+  8000             41503.000                0.0039131             0.0006485             0.0001075
+ 16000            166389.000                0.0045051             0.0006500             0.0000938
+ 32000            671185.000                0.0052188             0.0006555             0.0000823
+
+
+SumaSubMax 2                         Cota subestimada           Cota exacta    Cota sobreestimada
+
+     n                  t(n)             t(n) / n^0.8            t(n) / n^1          t(n) / n^1.2
+
+   500                 0.832 *              0.0057670             0.0016640             0.0004801
+  1000                 1.434 *              0.0057089             0.0014340             0.0003602
+  2000                 2.972 *              0.0067956             0.0014860             0.0003249
+  4000                 5.784 *              0.0075959             0.0014460             0.0002753
+  8000                11.780 *              0.0088853             0.0014725             0.0002440
+ 16000                24.442 *              0.0105887             0.0015276             0.0002204
+ 32000                47.286 *              0.0117656             0.0014777             0.0001856
+ 64000                95.398 *              0.0136331             0.0014906             0.0001630
+128000               191.940 *              0.0157542             0.0014995             0.0001427
+256000               385.672 *              0.0181814             0.0015065             0.0001248
+
+* tiempo calculado a partir de un promedio de 500 ejecuciones del algoritmo (en µs)
+
+Conclusión:
+
+Para el primer algoritmo podemos deducir que su cota exacta es de O(n^2) ya que el cociente de los tiempos entre esta tiende a un valor constante (0.000655 aprox).
+Para el segundo podemos deducir que su cota exacta es de O(n) tendiendo el cociente a 0.0015 aproximadamente.
+
+Además nos hemos asegurado de que estos resultados sean correctos tomando como referencia los cocientes de la cota subestimada (tienden a infinito) y de la sobreestimada (tienden a 0).
+
+Además concluimos que el algoritmo más eficiente es el segundo no solo por lograr unos tiempos más rápidos sino por que crece más lento el tiempo de ejecución con respecto al tamaño de entrada.

@@ -1,0 +1,176 @@
+Algoritmos
+Práctica 2
+Grupo 2.1
+
+Integrantes del equipo:
+Lucas García García (lucas.garcia.garcia@udc.es)
+Javier Manotas Ruiz (j.manotas@udc.es)
+Hugo Pérez Gómez (h.pgomez@udc.es)
+
+Especificaciones de la máquina con la que se han realizado las mediciones:
+Modelo del portátil: Msi Stealth GS66-12UGS
+Procesador: 12th Gen Intel® Core™ i7-12700H x 20
+Memoria: 32.0 GIB
+Disco duro 1.0 TB
+Sistema Operativo: Ubuntu 22.04.3 LTS (64 bits)
+Además hemos activado en configuración de energía en el portátil el modo alto rendimiento para mejorar la precisión de las primeras mediciones.
+
+Introdución:
+
+El objetivo es analizar el rendimiento y eficiencia de dos algoritmos de ordenación: ordenación por inserción y ordenación shell.
+Para ello hemos tomando mediciones del tiempo de ejecución (en microsegundos) para varios casos.
+En cada uno de estos la longitud de entrada del vector aumenta siguiendo una progresión geométrica de razón 2.
+Además comprobaremos la O grande de cada uno de estos algoritmos de forma empírica.
+Para la realización de este ejercicio se emplean tres situacion iniciales diferentes que son comprobadas por cada uno de los algoritmos:
+    (a) El vector desordenado aleatoriamente
+    (b) El vector ordenado en orden descendente
+    (c) El vector ordenado en orden ascendente
+
+
+Tablas de los tiempos de ejecución de los algoritmos:
+
+(Hemos seleccionado de las diversas tablas que imprime nuestro programa las que contienen las mejores mediciones)
+
+El caracter '*' simboliza que la medición se ha tomado a partir de un promedio de 500 ejecuciones del algoritmo para evitar tiempos muy pequeños (< 500 microsegundos) y poco fiables.
+Para asegurarnos de que las cotas sean las correctas el cociente de los tiempos entra la subestimada debe tender a infinito, para la sobreestimada a 0 y para la exacta a una constante.
+
+Inserción con inicialización aleatoria
+
+      n              t(n)          t(n) / n^1.8          t(n) / n^2.0          t(n) / n^2.2
+
+    500            70.106 *           0.0009719             0.0002804             0.0000809
+   1000           230.828 *           0.0009189             0.0002308             0.0000580
+   2000          1028.000             0.0011753             0.0002570             0.0000562
+   4000          3758.000             0.0012338             0.0002349             0.0000447
+   8000         15351.000             0.0014474             0.0002399             0.0000398
+  16000         56847.000             0.0015392             0.0002221             0.0000320
+  32000        230018.000             0.0017885             0.0002246             0.0000282
+  64000        930276.000             0.0020772             0.0002271             0.0000248
+
+Cota subestimada:   n^1.8
+Cota exacta:        n^2.0
+Cota sobreestimada: n^2.2
+
+Observación: El cociente de los tiempos entre la cota exacta tiende a 0.00022 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+
+Inserción con inicialización descendente
+
+      n              t(n)          t(n) / n^1.8          t(n) / n^2.0          t(n) / n^2.2
+
+    500           127.564 *           0.0017684             0.0005103             0.0001472
+   1000           573.000             0.0022812             0.0005730             0.0001439
+   2000          2039.000             0.0023311             0.0005098             0.0001115
+   4000          8119.000             0.0026656             0.0005074             0.0000966
+   8000         30971.000             0.0029201             0.0004839             0.0000802
+  16000        128374.000             0.0034759             0.0005015             0.0000723
+  32000        504170.000             0.0039202             0.0004924             0.0000618
+  64000       1979366.000             0.0044198             0.0004832             0.0000528
+
+Cota subestimada:   n^1.8
+Cota exacta:        n^2.0
+Cota sobreestimada: n^2.2
+
+Observación: El cociente de los tiempos entre la cota exacta tiende a 0.0005 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+El caso del vector ordenado de manera descendente es el peor caso al que se puede enfrentar el algoritmo de insercion, esto se debe a que el elemento a insertar se encuentra siempre al final del vector y se tendrá que mover hasta el principio de la parte desordenada.
+
+
+Inserción con inicialización ascendente
+
+      n              t(n)          t(n) / n^0.8          t(n) / n^1.0          t(n) / n^1.2
+
+    500             0.752 *           0.0052124             0.0015040             0.0004340
+   1000             1.532 *           0.0060990             0.0015320             0.0003848
+   2000             3.034 *           0.0069373             0.0015170             0.0003317
+   4000             6.090 *           0.0079978             0.0015225             0.0002898
+   8000            11.882 *           0.0089623             0.0014853             0.0002461
+  16000            23.622 *           0.0102334             0.0014764             0.0002130
+  32000            48.096 *           0.0119671             0.0015030             0.0001888
+  64000            89.208 *           0.0127485             0.0013939             0.0001524
+
+Cota subestimada:   n^0.8
+Cota exacta:        n^1.0
+Cota sobreestimada: n^1.2 
+
+Observación: El cociente de los tiempos entre la cota exacta tiende a 0.0014 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+El caso del vector ordenado de manera ascendente es el mejor caso para el método de inserción ya que como cada elemento esta en su posición no llega a hacer ningun intercambio solo comprueba que esté ordenado.
+
+
+Complejidades del algoritmo de inserción para cada una de las situaciones anteriores:
+    Mejor caso => O(n)
+    Peor caso => O(n^2)
+    Caso medio => O(n^2)
+
+Conclusión para ordenación por inserción: A pesar de ser bastante lento para el caso promedio o para el caso más lento, es ḿuy eficiente para vectores ordenados.
+
+Shell con inicialización aleatoria
+
+      n              t(n)         t(n) /  n^1.0         t(n) /  n^1.2         t(n) /  n^1.4
+
+    500            34.734 *           0.0694680             0.0200443             0.0057836
+   1000            94.022 *           0.0940220             0.0236173             0.0059324
+   2000           192.884 *           0.0964420             0.0210892             0.0046116
+   4000           445.826 *           0.1114565             0.0212175             0.0040391
+   8000           997.000             0.1246250             0.0206532             0.0034227
+  16000          2303.000             0.1439375             0.0207659             0.0029959
+  32000          5996.000             0.1873750             0.0235332             0.0029556
+  64000         11714.000             0.1830313             0.0200119             0.0021880
+
+Cota subestimada:   n^1.0
+Cota exacta:        n^1.2
+Cota sobreestimada: n^1.4
+
+Observación: El cociente de los tiempos entre la cota exacta tiende a 0.02 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+
+Shell con inicialización descendente
+
+      n              t(n)              t(n) / n       t(n) / n*log(n)           t(n) / n^1.2
+
+    500            13.246 *           0.0264920             0.0029548             0.0076440
+   1000            24.848 *           0.0248480             0.0024933             0.0062415
+   2000            58.984 *           0.0294920             0.0026895             0.0064491
+   4000           126.746 *           0.0316865             0.0026481             0.0060320
+   8000           269.214 *           0.0336518             0.0025954             0.0055769
+  16000           582.000             0.0363750             0.0026046             0.0052478
+  32000          1249.000             0.0390313             0.0026080             0.0049021
+  64000          2631.000             0.0411094             0.0025748             0.0044947
+
+Cota subestimada:    n
+Cota exacta:         n*log(n)
+Cota sobreestimada:  n^1.2
+
+Observación: El cociente de los tiempos entre la cota exacta tiende a 0.0025 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+Shell con inicialización ascendente
+
+      n              t(n)              t(n) / n       t(n) / n*log(n)           t(n) / n^1.2
+
+    500             6.084 *           0.0121680             0.0013572             0.0035110
+   1000            14.278 *           0.0142780             0.0014327             0.0035865
+   2000            32.788 *           0.0163940             0.0014950             0.0035849
+   4000            69.770 *           0.0174425             0.0014577             0.0033204
+   8000           153.042 *           0.0191303             0.0014754             0.0031703
+  16000           339.914 *           0.0212446             0.0015212             0.0030650
+  32000           770.000             0.0240625             0.0016078             0.0030221
+  64000          1542.000             0.0240938             0.0015091             0.0026343
+
+Cota subestimada:    n
+Cota exacta:         n*log(n)
+Cota sobreestimada:  n^1.2 
+
+
+Observación: El cociente de los tiempos entre la cota exacta tiende a 0.0015 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+Complejidades del algoritmo de insercion shell para cada una de las situaciones anteriores:
+    Mejor caso => O(n*log(n))
+    Peor caso => O(n^1.2)
+    Caso medio => O(n^1.2)
+
+Conclusión para ordenación shell: Este algoritmo en promedio es muy eficiente pero no presenta casi mejora en el mejor caso.
+
+Conclusión:
+
+El algoritmo de ordenación shell es mucho más eficiente que el de inserción debido a que en el caso medio y peor caso la complejidad en vez de ser de O(n^2) es de O(n^1.2).
+Sin embargo shell no es la mejor opción siempre ya que para vectores ordenados o casi ordenados el algoritmo de inserción es muchisimo más rápido O(n) frente a O(n*log(n)).
+Por lo tanto no hay una respuesta única a que algoritmo es mejor sino que debemos escoger uno u otro dependiendo del problema que queramos afrontar.

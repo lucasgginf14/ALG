@@ -1,0 +1,108 @@
+Algoritmos
+Práctica 4
+Grupo 2.1
+
+Integrantes del equipo:
+Lucas García García (lucas.garcia.garcia@udc.es)
+Javier Manotas Ruiz (j.manotas@udc.es)
+Hugo Pérez Gómez (h.pgomez@udc.es)
+
+Especificaciones de la máquina con la que se han realizado las mediciones:
+  Modelo: Msi Stealth GS66-12UGS
+  CPU:    12th Gen Intel Core i7-12700H x 20
+  RAM:    32.0 GB
+  SSD:    1.0 TB
+  SO:     Ubuntu 22.04.3 LTS (64 bits)
+Además hemos activado en configuración de energía en el portátil el modo alto rendimiento para mejorar la precisión de las primeras mediciones.
+
+
+Introducción:
+El objetivo de esta práctica es implementar el algoritmo de dijkstra para calcular las distancias mínimas entre los nodos de un grafo.
+Habrá que validar su correcto funcionamiento con dos casos de prueba que se proporcionan en el enunciado de la práctica y medir los tiempos para matrices de que crecen de tamaño siguiendo una progresión geométrica de razón 2.
+
+
+Validación de nuestra implementación del algoritmo:
+
+
+Caso 1:
+
+Matriz de adyacencia:
+
+[   0,   1,   8,   4,   7 ]
+
+[   1,   0,   2,   6,   5 ]
+
+[   8,   2,   0,   9,   5 ]
+
+[   4,   6,   9,   0,   3 ]
+
+[   7,   5,   5,   3,   0 ]
+
+Solucion obtenida:             |   Solucion esperada:
+                               |
+[   0,   1,   3,   4,   6 ]    |   [   0,   1,   3,   4,   6 ]
+                               |
+[   1,   0,   2,   5,   5 ]    |   [   1,   0,   2,   5,   5 ]
+                               |
+[   3,   2,   0,   7,   5 ]    |   [   3,   2,   0,   7,   5 ]
+                               |
+[   4,   5,   7,   0,   3 ]    |   [   4,   5,   7,   0,   3 ]
+                               |
+[   6,   5,   5,   3,   0 ]    |   [   6,   5,   5,   3,   0 ]
+
+
+Caso 2:
+
+Matriz de adyacencia:
+
+[   0,   1,   4,   7 ]
+
+[   1,   0,   2,   8 ]
+
+[   4,   2,   0,   3 ]
+
+[   7,   8,   3,   0 ]
+
+Solucion obtenida:       |   Solucion esperada:
+                         |
+[   0,   1,   3,   6 ]   |   [   0,   1,   3,   6 ]
+                         |
+[   1,   0,   2,   5 ]   |   [   1,   0,   2,   5 ]
+                         |
+[   3,   2,   0,   3 ]   |   [   3,   2,   0,   3 ]
+                         |
+[   6,   5,   3,   0 ]   |   [   6,   5,   3,   0 ]
+
+
+
+Tablas de los tiempos de ejecución de los algoritmos:
+
+(Para este apartado hemos seleccionado de las diversas tablas que imprime nuestro programa las que contienen las mejores mediciones)
+
+El caracter '*' simboliza que la medición se ha tomado a partir de un promedio de 1000 ejecuciones del algoritmo para evitar tiempos muy pequeños (< 500 microsegundos) y poco fiables.
+El caracter '#' es utilizado para indicar los resultados anómalos ocurridos durante la medición del tiempo de ejecución del algoritmo en las diversas situaciones mencionadas en la introducción.
+
+
+Cota subestimada:   n^2.6
+Cota exacta:        n^2.75
+Cota sobreestimada: n^2.9
+
+      n              t(n)          t(n) / n^2.6          t(n) / n^2.75          t(n) / n^2.9
+
+      8             4.796 *           0.0215201             0.0157537             0.0115324
+     16  #         35.840 *           0.0265250             0.0175000             0.0115457
+     32           224.242 *           0.0273733             0.0162763             0.0096779
+     64          1528.000             0.0307649             0.0164865             0.0088349
+    128          9528.000             0.0316414             0.0152818             0.0073806
+    256         66103.000             0.0362074             0.0157602             0.0068600
+    512        445216.000             0.0402225             0.0157790             0.0061900
+   1024       3008338.807             0.0448277             0.0158489             0.0056034
+
+
+Observaciones:
+La medicion en la matriz 16x16 la resaltamos como una medición anómala por el pico que se produce
+en los cocientes con la cota exacta. Razonamos que se puede deber a una cuestión de gestión de la memoria del ordenador.
+El cociente entre la cota exacta tiende al valor 0.0157 aproximadamente, para la cota subestimada a infinito y para la sobreestimada a 0 asegurándonos así de que las cotas son correctas.
+
+Conclusión:
+Hemos obtenido empíricamente que la complejidad del algoritmo Dijkstra resulta en O(n^2.75). Los tiempos crecen por lo tanto bastante rápido por lo que para grafos con muchos vértices este algoritmo tardará una gran cantidad de tiempo.

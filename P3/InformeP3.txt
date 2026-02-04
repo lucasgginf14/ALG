@@ -1,0 +1,172 @@
+Algoritmos
+Práctica 3
+Grupo 2.1
+
+Integrantes del equipo:
+Lucas García García (lucas.garcia.garcia@udc.es)
+Javier Manotas Ruiz (j.manotas@udc.es)
+Hugo Pérez Gómez (h.pgomez@udc.es)
+
+Especificaciones de la máquina con la que se han realizado las mediciones:
+  Modelo: Msi Stealth GS66-12UGS
+  CPU:    12th Gen Intel Core i7-12700H x 20
+  RAM:    32.0 GB
+  SSD:    1.0 TB
+  SO:     Ubuntu 22.04.3 LTS (64 bits)
+Además hemos activado en configuración de energía en el portátil el modo alto rendimiento para mejorar la precisión de las primeras mediciones.
+
+
+
+Introducción:
+
+Los objetivos de esta practica son implementar operaciones sobre montículos de mínimos (crear monticulo y quitarMenor) para poder asi implementar la ordenacion por monticulos.
+Además habrá que validar su correcto funcionamiento como también calcular empíricamente la O grande de tanto de crear montículo como para la ordenacion con monticulos.
+Para ello mostraremos tablas con los tiempos resultantes de medir los tiempos de ejecucion (en microsegundos) de estos algoritmos con vectores que aumentan de tamano siguiendo na progresión geométrica de razón 2.
+
+En cuanto a la ordenacion por monticulos partiremos de 3 situaciones iniciales para las mediciones:
+    (Situación a): El vector ordenado en orden ascendente.
+    (Situación b): El vector ordenado en orden descendente.
+    (Situación c): El vector desordenado aleatoriamente.
+
+
+
+Validación de las operaciones requeridas:
+
+                                  Comprobacion crear monticulos
+
+Array:        [ 14,   8, -15,   1,   6,  -6,   9,  11,   3,  -9, -10,  -1, -13,  -3, -15 ]
+
+Monticulo:    [-15, -10, -15,   1,  -9, -13,  -3,  11,   3,   8,   6,  -1,  -6,  14,   9 ]
+Tiene orden de monticulo? Si
+Además se puede apreciar que no se ha duplicado ni eliminado ningun elemento.
+
+
+                                  Comprobacion quitar menor
+
+-15 << [-15, -10, -13,   1,  -9,  -6,  -3,  11,   3,   8,   6,  -1,   9,  14 ]
+-15 << [-13, -10,  -6,   1,  -9,  -1,  -3,  11,   3,   8,   6,  14,   9 ]
+-13 << [-10,  -9,  -6,   1,   6,  -1,  -3,  11,   3,   8,   9,  14 ]
+-10 << [ -9,   1,  -6,   3,   6,  -1,  -3,  11,  14,   8,   9 ]
+ -9 << [ -6,   1,  -3,   3,   6,  -1,   9,  11,  14,   8 ]
+ -6 << [ -3,   1,  -1,   3,   6,   8,   9,  11,  14 ]
+ -3 << [ -1,   1,   8,   3,   6,  14,   9,  11 ]
+ -1 << [  1,   3,   8,  11,   6,  14,   9 ]
+  1 << [  3,   6,   8,  11,   9,  14 ]
+  3 << [  6,   9,   8,  11,  14 ]
+  6 << [  8,   9,  14,  11 ]
+  8 << [  9,  11,  14 ]
+  9 << [ 11,  14 ]
+ 11 << [ 14 ]
+ 14 << [ ]
+
+
+                                  Comprobacion ordenacion por monticulos
+
+Array:        [ -6,  -5,  -6,  -9,  15,   9, -14,  10, -12,   1,  14,  -4,   3,  -2,   8 ]
+
+Ordenacion:   [-14, -12,  -9,  -6,  -6,  -5,  -4,  -2,   1,   3,   8,   9,  10,  14,  15 ]
+Ordenado? Si
+
+
+
+Tablas de los tiempos de ejecución de los algoritmos:
+
+(Para este apartado hemos seleccionado de las diversas tablas que imprime nuestro programa las que contienen las mejores mediciones)
+
+El caracter '*' simboliza que la medición se ha tomado a partir de un promedio de 1000 ejecuciones del algoritmo para evitar tiempos muy pequeños (< 500 microsegundos) y poco fiables.
+El caracter '#' es utilizado para indicar los resultados anómalos ocurridos durante la medición del tiempo de ejecución del algoritmo en las diversas situaciones mencionadas en la introducción.
+Para asegurarnos de que las cotas sean las correctas el cociente de los tiempos entra la subestimada debe tender a infinito, para la sobreestimada a 0 y para la exacta a una constante.
+
+                                  Tiempos creacion de monticulos
+
+Cota subestimada:   n^0.7
+Cota exacta:        n^1.0
+Cota sobreestimada: n^1.3
+
+      n              t(n)          t(n) / n^0.7          t(n) / n^1.0          t(n) / n^1.3
+
+    500             5.319 *           0.0686358             0.0106380             0.0016488
+   1000            12.839 *           0.1019838             0.0128390             0.0016163
+   2000            23.453 *           0.1146773             0.0117265             0.0011991
+   4000            46.735 *           0.1406696             0.0116837             0.0009704
+   8000            89.752 *           0.1662957             0.0112190             0.0007569
+  16000           172.300 *           0.1965175             0.0107688             0.0005901
+  32000           352.642 *           0.2475877             0.0110201             0.0004905
+  64000           781.000             0.3375398             0.0122031             0.0004412
+
+Observaciones: El cociente de los tiempos entre la cota exacta tiende a 0.011 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+
+                                  Ordenacion monticulos Ascendente
+
+Cota subestimada:   n
+Cota exacta:        nlogn
+Cota sobreestimada: n^2
+
+      n              t(n)              t(n) / n          t(n) / nlogn            t(n) / n^2
+
+    500 #          12.671 *           0.0253420             0.0040778             0.0000507
+   1000            45.127 *           0.0451270             0.0065328             0.0000451
+   2000           117.285 *           0.0586425             0.0077152             0.0000293
+   4000           264.804 *           0.0662010             0.0079817             0.0000166
+   8000           548.000             0.0685000             0.0076220             0.0000086
+  16000          1132.000             0.0707500             0.0073086             0.0000044
+  32000          2545.000             0.0795312             0.0076668             0.0000025
+  64000          5435.000             0.0849219             0.0076737             0.0000013
+ 128000         11023.000             0.0861172             0.0073230             0.0000007
+ 256000         23308.000             0.0910469             0.0073113             0.0000004
+
+Observaciones: El cociente de los tiempos entre la cota exacta tiende a 0.007 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+La medicion para 500 elementos ha resultado anómala (la proporcion entre el tiempo y la cota exacta es significativamente menor que el resto)
+Esto se puede deber a que el numero de elementos es demasiado pequeño como para que la medicion sea fiable.
+
+
+                                  Ordenacion monticulos Descendente
+
+Cota subestimada:   n
+Cota exacta:        nlogn
+Cota sobreestimada: n^2
+
+      n              t(n)              t(n) / n          t(n) / nlogn            t(n) / n^2
+
+    500            20.818 *           0.0416360             0.0067997             0.0000781
+   1000            54.135 *           0.0541350             0.0078368             0.0000541
+   2000           119.447 *           0.0597235             0.0078574             0.0000299
+   4000           262.006 *           0.0655015             0.0078974             0.0000164
+   8000           574.000             0.0717500             0.0079836             0.0000090
+  16000          1230.000             0.0768750             0.0079414             0.0000048
+  32000          2597.000             0.0811562             0.0078234             0.0000025
+  64000          5467.000             0.0854219             0.0077189             0.0000013
+ 128000         11781.000             0.0920391             0.0078266             0.0000007
+ 256000         24639.000             0.0962461             0.0077288             0.0000004
+
+Observaciones: El cociente de los tiempos entre la cota exacta tiende a 0.0078 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+
+                                  Ordenacion monticulos Aleatorio
+
+Cota subestimada:   n
+Cota exacta:        nlogn
+Cota sobreestimada: n^2
+
+      n              t(n)              t(n) / n          t(n) / nlogn            t(n) / n^2
+
+    500            36.008 *           0.0720160             0.0115882             0.0001440
+   1000            76.969 *           0.0769690             0.0111424             0.0000770
+   2000           163.438 *           0.0817190             0.0107512             0.0000409
+   4000           355.098 *           0.0887745             0.0107034             0.0000222
+   8000           770.000             0.0962500             0.0107097             0.0000120
+  16000          1631.000             0.1019375             0.0105304             0.0000064
+  32000          3418.000             0.1068125             0.0102967             0.0000033
+  64000          7355.000             0.1149219             0.0103845             0.0000018
+ 128000         16518.000             0.1290469             0.0109736             0.0000010
+ 256000         34684.000             0.1354844             0.0108797             0.0000005
+
+Observaciones: El cociente de los tiempos entre la cota exacta tiende a 0.0078 aproximadamente, a infinito para la cota subestimada y a 0 para la sobreestimada lo que nos permite asegurarnos de que la cotas son correctas.
+
+
+
+Conclusión:
+Hemos demostrado empíricamente que la complejidad para crear monticulo es O(n).
+Tambien demostramos que para ordenar por monticulos es siempre O(nlogn), sin embargo para los casos donde el vector se encuentra en orden ascendente o descendente ocupa menos tiempo a pesar de ser la misma complejidad.
+Se observa ademas que los tiempos de ordenacion son muy pequeños en cambio tendremos que emplear memoria adicional para poder usar este algoritmo de ordenacion (la correspondiente al monticulo).
